@@ -1,20 +1,20 @@
 import { Form, useLoaderData, redirect, useNavigate } from "react-router-dom";
-import { updatePlace } from "../places";
+import { updateContact } from "../contacts";
 
 export async function action({ request, params }) {
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
-    await updatePlace(params.placeId, updates);
-    return redirect(`/places/${params.placeId}`);
+    await updateContact(params.contactId, updates);
+    return redirect(`/contacts/${params.contactId}`);
   }
 
 
-export default function EditPlace() {
-  const { place } = useLoaderData();
+export default function EditContact() {
+  const { contact } = useLoaderData();
   const navigate = useNavigate();
 
   return (
-    <Form method="post" id="place-form">
+    <Form method="post" id="contact-form">
       <p>
         <span>Name</span>
         <input
@@ -22,14 +22,14 @@ export default function EditPlace() {
           aria-label="First name"
           type="text"
           name="first"
-          defaultValue={place.first}
+          defaultValue={contact.first}
         />
         <input
           placeholder="Last"
           aria-label="Last name"
           type="text"
           name="last"
-          defaultValue={place.last}
+          defaultValue={contact.last}
         />
       </p>
       <label>
@@ -38,7 +38,7 @@ export default function EditPlace() {
           type="text"
           name="twitter"
           placeholder="@jack"
-          defaultValue={place.twitter}
+          defaultValue={contact.twitter}
         />
       </label>
       <label>
@@ -48,14 +48,14 @@ export default function EditPlace() {
           aria-label="Avatar URL"
           type="text"
           name="avatar"
-          defaultValue={place.avatar}
+          defaultValue={contact.avatar}
         />
       </label>
       <label>
         <span>Notes</span>
         <textarea
           name="notes"
-          defaultValue={place.notes}
+          defaultValue={contact.notes}
           rows={6}
         />
       </label>

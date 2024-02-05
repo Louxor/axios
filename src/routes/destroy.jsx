@@ -1,7 +1,7 @@
 import { redirect } from "react-router-dom";
-import { deletePlace} from "../places";
+import { deleteContact} from "../contacts";
 
 export async function action({ params }) {
-  await deletePlace(params.placeId);
+  await deleteContact(params.contactId);
   return redirect("/");
 }

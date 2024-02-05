@@ -6,8 +6,8 @@ import ErrorPage from "./error-page";
 
 import Root, { loader as rootLoader, action as rootAction } from "./routes/root";
 import Index from "./routes/index";
-import Place, {loader as placeLoader, action as placeAction} from "./routes/places";
-import EditPlace, { action as editAction} from "./routes/edit";
+import Contact, {loader as contactLoader, action as contactAction} from "./routes/contacts";
+import EditContact, { action as editAction} from "./routes/edit";
 import { action as destroyAction } from "./routes/destroy";
 
 
@@ -28,19 +28,19 @@ const router = createBrowserRouter([
       children: [
         {index: true, element: <Index />},  
         {
-          path: "places/:placeId",
-          loader: placeLoader,
-          action: placeAction,
-          element: <Place />,
+          path: "contacts/:contactId",
+          loader: contactLoader,
+          action: contactAction,
+          element: <Contact />,
         },
         {
-          path: "places/:placeId/edit",
-          element: <EditPlace />,
-          loader: placeLoader,
+          path: "contacts/:contactId/edit",
+          element: <EditContact />,
+          loader: contactLoader,
           action: editAction
         },
         {
-          path: "places/:placeId/destroy",
+          path: "contacts/:contactId/destroy",
           action: destroyAction,
           errorElement: <div>Oops! There was an error.</div>,
         },

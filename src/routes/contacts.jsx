@@ -1,60 +1,60 @@
 import { Form, useLoaderData, useFetcher } from "react-router-dom";
-import { getPlace, updatePlace } from "../places";
+import { getContact, updateContact } from "../contacts";
 
 export async function loader({ params }) {
-  const place = await getPlace(params.placeId);
-  if (!place) {
+  const contact = await getContact(params.contactId);
+  if (!contact) {
     throw new Response("", {
       status: 404,
       statusText: "Not Found",
     });
   }
-  return { place };
+  return { contact };
 }
 
 export async function action({ request, params }) {
   let formData = await request.formData();
-  return updatePlace(params.placeId, {
+  return updateContact(params.contactId, {
     favorite: formData.get("favorite") === "true",
   });
 }
 
-export default function Place() {
-  const { place } = useLoaderData();
+export default function Contact() {
+  const { contact } = useLoaderData();
 
   return (
-    <div id="place">
+    <div id="contact">
       <div>
         <img
-          key={place.avatar}
-          src={place.avatar || null}
+          key={contact.avatar}
+          src={contact.avatar || null}
         />
       </div>
 
       <div>
         <h1>
-          {place.first || place.last ? (
+          {contact.first || contact.last ? (
             <>
-              {place.first} {place.last}
+              {contact.first} {contact.last}
             </>
           ) : (
             <i>No Name</i>
           )}{" "}
-          <Favorite place={place} />
+          <Favorite contact={contact} />
         </h1>
 
-        {place.twitter && (
+        {contact.twitter && (
           <p>
             <a
               target="_blank"
-              href={`https://twitter.com/${place.twitter}`} rel="noreferrer"
+              href={`https://twitter.com/${contact.twitter}`} rel="noreferrer"
             >
-              {place.twitter}
+              {contact.twitter}
             </a>
           </p>
         )}
 
-        {place.notes && <p>{place.notes}</p>}
+        {contact.notes && <p>{contact.notes}</p>}
 
         <div>
           <Form action="edit">
@@ -82,10 +82,10 @@ export default function Place() {
 }
 
 // eslint-disable-next-line react/prop-types
-function Favorite({ place }) {
+function Favorite({ contact }) {
   const fetcher = useFetcher();
     // eslint-disable-next-line react/prop-types
-  let favorite = place.favorite;
+  let favorite = contact.favorite;
   if (fetcher.formData) {
     favorite = fetcher.formData.get("favorite") === "true";
   }

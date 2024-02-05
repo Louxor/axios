@@ -1,23 +1,23 @@
 import { useEffect } from "react";
 
 import { Outlet, NavLink, useLoaderData, Form, redirect, useNavigation, useSubmit } from "react-router-dom";
-import { getPlaces, createPlace } from "../places";
+import { getContacts, createContact } from "../contacts";
 
 export async function loader({ request }) {
   const url = new URL(request.url);
   const q = url.searchParams.get("q");
-  const places = await getPlaces(q);
-  return { places, q };
+  const contacts = await getContacts(q);
+  return { contacts, q };
 }
 
 export async function action() {
-    const place = await createPlace();
-    return redirect(`/places/${place.id}/edit`);
+    const contact = await createContact();
+    return redirect(`/contacts/${contact.id}/edit`);
 }
   
 
 export default function Root() {
-    const {places, q} = useLoaderData()
+    const {contacts, q} = useLoaderData()
     const navigation = useNavigation();
     const submit = useSubmit();
 
@@ -36,7 +36,7 @@ export default function Root() {
               <input
                 id="q"
                 className={searching ? "loading" : ""}
-                aria-label="Search places"
+                aria-label="Search contacts"
                 placeholder="Search"
                 type="search"
                 name="q"
@@ -63,12 +63,12 @@ export default function Root() {
             </Form>
           </div>
           <nav>
-            {places.length ? (
+            {contacts.length ? (
               <ul>
-                  {places.map((place) => (
-                    <li key={place.id}>
+                  {contacts.map((contact) => (
+                    <li key={contact.id}>
                       <NavLink
-                        to={`places/${place.id}`}
+                        to={`contacts/${contact.id}`}
                         className={({ isActive, isPending }) =>
                           isActive
                             ? "active"
@@ -77,21 +77,21 @@ export default function Root() {
                             : ""
                         }
                       >
-                      {place.first || place.last ? (
+                      {contact.first || contact.last ? (
                         <>
-                            {place.first} {place.last}
+                            {contact.first} {contact.last}
                         </>
                         ) : (
                         <i>No Name</i>
                         )}{" "}
-                        {place.favorite && <span>★</span>}
+                        {contact.favorite && <span>★</span>}
                       </NavLink>
                     </li>
                   ))}
               </ul>
             ) : (
                 <p>
-                    <i>No places</i>
+                    <i>No contacts</i>
                 </p>
             )}
           </nav>
